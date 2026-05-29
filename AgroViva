@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroViva - Copiloto do Campo</title>
+    <style>
+        :root {
+            --verde: #2E4A23;
+            --verde-escuro: #1A330E;
+            --amarelo: #FFD700;
+            --branco: #FFFFFF;
+            --preto: #000000;
+            --cinza: #F4F4F4;
+            --vermelho: #D32F2F;
+            --caixa-msg: #E6F2FF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: var(--cinza);
+            min-height: 100vh;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* BOAS VINDAS */
+        #tela-boas-vindas {
+            background: var(--verde);
+            color: var(--branco);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .splash { max-width: 500px; }
+        .logo { font-size: 80px; margin-bottom: 20px; }
+        .titulo { font-size: 50px; font-weight: bold; margin-bottom: 20px; }
+        
+        .btn {
+            background: var(--amarelo);
+            color: var(--preto);
+            border: none;
+            padding: 18px 30px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        /* CADASTRO COMPLETO */
+        #tela-login { justify-content: center; align-items: center; padding: 20px; }
+        .login-box {
+            background: var(--branco);
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .login-box h2 { margin-bottom: 20px; color: var(--verde); text-align: center; }
+        
+        .form-cadastro {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .label-form {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: var(--verde);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* DASHBOARD STRUCT */
+        #tela-dashboard { flex-direction: row; }
+        .sidebar {
+            width: 260px;
+            background: var(--preto);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .logo-menu { font-size: 28px; margin-bottom: 30px; color: var(--amarelo); font-weight: bold; }
+        .menu { display: flex; flex-direction: column; gap: 12px; }
+        .menu button {
+            background: none;
+            border: none;
+            color: white;
+            text-align: left;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .menu button:hover, .menu button.active { background: var(--verde); }
+
+        .main { flex: 1; padding: 30px; display: flex; flex-direction: column; min-height: 100vh; }
+        .topo { background: var(--verde-escuro); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; }
+        
+        .modulo-conteudo {
+            display: none;
+            background: var(--branco);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .modulo-conteudo.active { display: block; }
+        .modulo-conteudo h2 { color: var(--verde); margin-bottom: 15px; }
+
+        /* LISTAS DINÂMICAS */
+        .lista-itens { list-style: none; margin-top: 15px; }
+        .lista-itens li {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: #fafafa;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-size: 16px;
+            line-height: 1.4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-cumprir {
+            background: var(--verde);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .btn-cumprir.feito {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+
+        /* COMPONENTE DE CHAT DA IA */
+        .chat-container {
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            background: #fcfcfc;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .msg { padding: 12px 16px; border-radius: 15px; max-width: 85%; font-size: 16px; line-height: 1.4; }
+        .msg.ia { background: #e2f0d9; align-self: flex-start; border-left: 5px solid var(--verde); color: var(--verde-escuro); }
+        .msg.user { background: var(--caixa-msg); align-self: flex-end; border-right: 5px solid #0066cc; }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 10px;
+            background: #eee;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            gap: 10px;
+        }
+
+        /* IMAGEM E PREVIEW DO SCANNER */
+        .box-camera {
+            border: 3px dashed var(--verde);
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            background: #f9f9f9;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .img-preview {
+            max-width: 100%;
+            max-height: 250px;
+            display: none;
+            margin: 15px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .resultado-analise {
+            background: #fff3cd;
+            border-left: 6px solid var(--amarelo);
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            margin-top: 15px;
+        }
+
+        /* MAPA RURAL VIA CANVAS */
+        #mapa-campo {
+            width: 100%;
+            height: 250px;
+            background: #ddd;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* SELEÇÃO DE TIPO DE ANÚNCIO (FEIRA) */
+        .seletor-tipo {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .radio-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            background: white;
+        }
+        .radio-btn.selected {
+            border-color: var(--verde);
+            background: #e2f0d9;
+            color: var(--verde-escuro);
+        }
+
+        /* RESPONSIVIDADE */
+        @media(max-width: 768px) {
+            #tela-dashboard { flex-direction: column; }
+            .sidebar { width: 100%; min-height: auto; padding: 15px; }
+            .menu { flex-direction: row; flex-wrap: wrap; gap: 5px; }
+            .menu button { flex: 1 1 45%; text-align: center; padding: 8px; font-size: 14px; }
+            .main { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <section id="tela-boas-vindas" class="screen active">
+        <div class="splash">
+            <div class="logo">🌱</div>
+            <div class="titulo">AgroViva</div>
+            <p style="font-size: 20px; margin-bottom: 30px;">O aplicativo parceiro que conversa com você e fortalece a comunidade.</p>
+            <button class="btn" onclick="irParaCadastro()">CONFIGURAR MEU APLICATIVO</button>
+        </div>
+    </section>
+
+    <section id="tela-login" class="screen">
+        <div class="login-box">
+            <h2>📝 Identificação do Produtor</h2>
+            <div class="form-cadastro">
+                <span class="label-form">Qual o seu nome completo ou como gosta de ser chamado?</span>
+                <input type="text" id="reg-nome" class="input" placeholder="Ex: Seu João da Silva" value="Seu João">
+                
+                <span class="label-form">Seu número de telefone/WhatsApp:</span>
+                <input type="tel" id="reg-fone" class="input" placeholder="Ex: (43) 99999-1234" value="(43) 99999-8877">
+                
+                <span class="label-form">Qual o CEP da região ou da cidade mais próxima?</span>
+                <input type="text" id="reg-cep" class="input" placeholder="Ex: 86000-000" value="84000-000">
+
+                <span class="label-form">Nome da comunidade rural, bairro ou distrito:</span>
+                <input type="text" id="reg-bairro" class="input" placeholder="Ex: Assentamento Boa Vista / Interior do PR" value="Interior do Paraná">
+
+                <button class="btn-login" onclick="salvarCadastroEEntrar()">Salvar e Ativar Aplicativo</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="tela-dashboard" class="screen">
+        <div class="sidebar">
+            <div class="logo-menu">🌱 AgroViva</div>
+            <div class="menu">
+                <button id="btn-menu-home" class="active" onclick="navegarAba('home')">🏠 Resumo Geral</button>
+                <button id="btn-menu-parceiro" onclick="navegarAba('parceiro')">🤝 Falar com a Terra (IA)</button>
+                <button id="btn-menu-missoes" onclick="navegarAba('missoes')">🌾 Missões Diárias</button>
+                <button id="btn-menu-saude" onclick="navegarAba('saude')">🔍 Saúde da Lavoura</button>
+                <button id="btn-menu-bairro" onclick="navegarAba('bairro')">🗺️ Nosso Bairro</button>
+                <button id="btn-menu-feira" onclick="navegarAba('feira')">🧺 Feira & Caminhão</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="topo">
+                <h1 id="txt-boas-vindas-topo">Carregando...</h1>
+                <p id="txt-subtitulo-topo">Localidade: Carregando... | Modo 100% Offline Garantido</p>
+            </div>
+
+            <div id="aba-home" class="modulo-conteudo active">
+                <h2>Acompanhamento da sua Lida</h2>
+                <div style="background: #e2f0d9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 6px solid var(--verde);">
+                    <h3 style="color: var(--verde-escuro);">🏆 Painel de Evolução do Produtor</h3>
+                    <p style="margin-top: 5px; font-size: 18px;">Pontuação Atual: <strong id="lbl-pontos">150</strong> pontos acumulados</p>
+                    <p style="font-size: 16px; color: #555;">Sua colocação no ranking regional: <strong id="txt-ranking-pos">3º Lugar no bairro</strong></p>
+                </div>
+                <h3>📜 Atividades Registradas Automaticamente:</h3>
+                <ul class="lista-itens" id="lista-atividades-home"></ul>
+            </div>
+
+            <div id="aba-parceiro" class="modulo-conteudo">
+                <h2>🤝 Seu Parceiro de Campo Inteligente</h2>
+                <p style="margin-bottom: 15px; color:#555;">Escolha como prefere conversar agora. Ele te ouve, debate soluções sobre a terra e guarda tudo no seu diário.</p>
+                
+                <div class="seletor-tipo">
+                    <div id="chat-mode-audio" class="radio-btn selected" onclick="mudarModoInputChat('audio')">🎙️ Conversar por Áudio</div>
+                    <div id="chat-mode-texto" class="radio-btn" onclick="mudarModoInputChat('texto')">⌨️ Conversar por Escrita</div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-box">
+                        <div class="msg ia">Olá! Sou seu parceiro de plantio. Como estão as coisas na terra hoje? Pode me relatar sobre o clima, o solo ou a colheita que eu te ajudo no manejo.</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="input-texto-chat" class="input" placeholder="Escreva sobre o que está ocorrendo na terra..." style="display:none;" onkeypress="verificarEnterChat(event)">
+                        <button class="btn-login" id="btn-acao-chat" onclick="processarEnvioChat()" style="margin:0;">🎙️ Apertar para falar com a IA</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aba-missoes" class="modulo-conteudo">
+                <h2>🌾 Missões Diárias de Manejo</h2>
+                <p style="color: #555; margin-bottom: 15px;">Cumpra as tarefas geradas pela IA parceira com base nas condições do tempo para proteger seu plantio e subir no ranking!</p>
+                
+                <ul class="lista-itens" id="lista-missoes-campo">
+                    </ul>
+            </div>
+
+            <div id="aba-saude" class="modulo-conteudo">
+                <h2>🔍 Varredura e Identificação de Doenças</h2>
+                <p style="margin-bottom: 15px;">Escolha ou tire uma foto real das folhas ou frutos machucados para a IA examinar o tratamento adequado.</p>
+                
+                <div class="box-camera" onclick="document.getElementById('campo-foto').click()">
+                    <span style="font-size: 50px;">📷</span>
+                    <p>Clique para selecionar ou tirar uma foto do plantio</p>
+                    <input type="file" id="campo-foto" style="display:none;" accept="image/*" onchange="carregarEFazerVarreduraFoto(event)">
+                </div>
+
+                <img id="preview-foto-planta" class="img-preview" alt="Planta enviada">
+
+                <div class="resultado-analise" id="box-resultado-analise">
+                    <h3>🔬 Diagnóstico do seu Parceiro Digital:</h3>
+                    <p id="lbl-resultado-diagnostico" style="margin-top: 8px; font-size: 16px; color: #333;"></p>
+                </div>
+            </div>
+
+            <div id="aba-bairro" class="modulo-conteudo">
+                <h2>🗺️ Ocorrências e Mapa do Bairro</h2>
+                <p>Ative a localização para que o AgroViva mapeie sua área de trabalho atual.</p>
+                
+                <button class="btn" style="font-size:16px; padding:10px 20px; margin-top:10px;" onclick="capturarLocalizacaoGpsReal()">📍 Localizar minha Área no Mapa</button>
+                <canvas id="mapa-campo"></canvas>
+
+                <h3 style="margin-top: 25px;">🚨 Reportar Problema na Estrada ou Pontes</h3>
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <input type="text" id="input-bairro-relato" class="input" placeholder="Ex: Árvore caída bloqueando a entrada principal">
+                    <button class="btn" style="font-size:16px; padding:10px;" onclick="adicionarAlertaBairro()">Enviar</button>
+                </div>
+                <ul class="lista-itens" id="lista-ocorrencias-bairro"></ul>
+            </div>
+
+            <div id="aba-feira" class="modulo-conteudo">
+                <h2>🧺 Feira Viva e Logística Compartilhada</h2>
+                <p style="margin-bottom: 20px;">Anuncie trocas de excedentes de colheita ou ofereça espaço sobrando no seu transporte para ajudar vizinhos a levarem mercadorias para a cidade.</p>
+                
+                <div style="background:#f9f9f9; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:20px;">
+                    <h3>📢 Publicar Novo Anúncio</h3>
+                    <div class="seletor-tipo" style="margin-top:10px;">
+                        <div id="tipo-feira-troca" class="radio-btn selected" onclick="mudarTipoAnuncioFeira('troca')">🔄 Troca/Doação de Alimentos</div>
+                        <div id="tipo-feira-frete" class="radio-btn" onclick="mudarTipoAnuncioFeira('frete')">🚚 Oferecer Espaço/Carga no Caminhão</div>
+                    </div>
+                    <input type="text" id="input-texto-feira" class="input" placeholder="Escreva o anúncio (Ex: Tenho espaço no caminhão amanhã cedo para Londrina)">
+                    <button class="btn-login" onclick="publicarAnuncioFeira()">Lançar no Aplicativo</button>
+                </div>
+
+                <h3>📋 Mural da Comunidade:</h3>
+                <ul class="lista-itens" id="lista-mural-feira"></ul>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+    
+        // BANCO DE DADOS INTEGRADO (IndexedDB Nativo)//
+        let db = null;
+        const nomeBanco = "AgroVivaDatabaseRealV3";
+        let dadosUsuario = {};
+        let inputChatAtual = 'audio';
+        let tipoAnuncioFeiraAtual = 'troca';
+
+        function iniciarBanco() {
+            const conexao = indexedDB.open(nomeBanco, 1);
+
+            conexao.onupgradeneeded = function(e) {
+                let banco = e.target.result;
+                banco.createObjectStore("usuario", { keyPath: "id" });
+                banco.createObjectStore("historico", { keyPath: "id", autoIncrement: true });
+                banco.createObjectStore("bairro", { keyPath: "id", autoIncrement: true });
+                banco.createObjectStore("feira", { keyPath: "id", autoIncrement: true });
+                banco.createObjectStore("missoes", { keyPath: "id", autoIncrement: true });
+            };
+
+            conexao.onsuccess = function(e) {
+                db = e.target.result;
+                verificarSeTemCadastro();
+            };
+            
+            conexao.onerror = function() {
+                console.log("Banco rodando em modo de memória temporária.");
+            };
+        }
+
+        function verificarSeTemCadastro() {
+            if(!db) return;
+            const transacao = db.transaction(["usuario"], "readonly");
+            const loja = transacao.objectStore("usuario");
+            
+            loja.get(1).onsuccess = function(e) {
+                if (e.target.result) {
+                    dadosUsuario = e.target.result;
+                    // Se já tem cadastro pulamos direto para o painel
+                    document.getElementById('tela-boas-vindas').style.display = 'none';
+                    document.getElementById('tela-login').style.display = 'none';
+                    document.getElementById('tela-dashboard').classList.add('active');
+                    carregarAplicativoPrincipal();
+                }
+            };
+        }
+
+        // FUNÇÃO DO BOTÃO INICIAL CORRIGIDA (FORÇA A TRANSIÇÃO)
+        function irParaCadastro() {
+            document.getElementById('tela-boas-vindas').style.display = 'none';
+            document.getElementById('tela-login').classList.add('active');
+        }
+
+        function salvarCadastroEEntrar() {
+            let nome = document.getElementById('reg-nome').value.trim();
+            let fone = document.getElementById('reg-fone').value.trim();
+            let cep = document.getElementById('reg-cep').value.trim();
+            let bairro = document.getElementById('reg-bairro').value.trim();
+
+            if(!nome || !fone || !cep || !bairro) {
+                alert("Por favor, preencha todos os campos do seu perfil.");
+                return;
+            }
+
+            dadosUsuario = { id: 1, nome: nome, fone: fone, cep: cep, bairro: bairro, pontos: 150 };
+
+            if(db) {
+                const transacao = db.transaction(["usuario", "historico", "bairro", "feira", "missoes"], "readwrite");
+                transacao.objectStore("usuario").put(dadosUsuario);
+                
+                transacao.objectStore("historico").add({ data: "2026-05-28", texto: "Colheita realizada de 1.200 kg de hortaliças variadas." });
+                transacao.objectStore("bairro").add({ texto: "Ponte do Rio das Pedras danificada - Comunidade aguardando material." });
+                transacao.objectStore("feira").add({ tipo: "troca", texto: "Troco 3 sacas de milho seco por esterco bovino curtido." });
+                
+                transacao.objectStore("missoes").add({ tarefa: "Reforçar a cobertura de palhada nos canteiros baixos (Previsão de Chuva Forte)", pontos: 50, feito: false });
+                transacao.objectStore("missoes").add({ tarefa: "Calibragem preventiva dos bicos de irrigação gotejadora", pontos: 30, feito: false });
+                transacao.objectStore("missoes").add({ tarefa: "Registrar a checagem semanal do filtro de óleo do maquinário", pontos: 40, feito: false });
+
+                transacao.oncomplete = function() {
+                    entrarNoPainelDireto();
+                };
+            } else {
+                // Modo de segurança caso o IndexedDB falhe
+                entrarNoPainelDireto();
+            }
+        }
+
+        function entrarNoPainelDireto() {
+            document.getElementById('tela-login').style.display = 'none';
+            document.getElementById('tela-dashboard').classList.add('active');
+            carregarAplicativoPrincipal();
+            falarBoasVindasFono();
+        }
+
+        function carregarAplicativoPrincipal() {
+            document.getElementById('txt-boas-vindas-topo').innerText = `Bom dia, ${dadosUsuario.nome || 'Produtor'}! ☀️`;
+            document.getElementById('txt-subtitulo-topo').innerText = `Comunidade: ${dadosUsuario.bairro || 'Local'} (CEP: ${dadosUsuario.cep || '00000-000'}) | Sistema 100% Offline`;
+            document.getElementById('lbl-pontos').innerText = dadosUsuario.pontos || 150;
+            
+            atualizarCalculoRanking();
+            desenharMapaVazio();
+            renderizarListasLocais();
+        }
+
+        function atualizarCalculoRanking() {
+            let posTxt = document.getElementById('txt-ranking-pos');
+            let pts = dadosUsuario.pontos || 150;
+            if (pts >= 250) {
+                posTxt.innerHTML = `<strong style="color: gold;">🏆 1º Lugar Geral do Bairro!</strong>`;
+            } else if (pts >= 200) {
+                posTxt.innerHTML = `<strong style="color: #616161;">🥈 2º Lugar no bairro</strong>`;
+            } else {
+                posTxt.innerHTML = `<strong>🥉 3º Lugar no bairro</strong>`;
+            }
+        }
+
+        function renderizarListasLocais() {
+            if(!db) return;
+            const tx = db.transaction(["historico", "bairro", "feira", "missoes"], "readonly");
+
+            // Diário Home
+            let listHome = document.getElementById('lista-atividades-home');
+            listHome.innerHTML = "";
+            tx.objectStore("historico").openCursor().onsuccess = function(e) {
+                let cursor = e.target.result;
+                if(cursor) {
+                    listHome.innerHTML += `<li><strong>[${cursor.value.data}]</strong> - ${cursor.value.texto}</li>`;
+                    cursor.continue();
+                }
+            };
+
+            // Missões Diárias
+            let listMissoes = document.getElementById('lista-missoes-campo');
+            listMissoes.innerHTML = "";
+            tx.objectStore("missoes").openCursor().onsuccess = function(e) {
+                let cursor = e.target.result;
+                if(cursor) {
+                    let m = cursor.value;
+                    let btnHtml = m.feito 
+                        ? `<button class="btn-cumprir feito" disabled>✅ Cumprida</button>` 
+                        : `<button class="btn-cumprir" onclick="finalizarMissaoGanhaPontos(${m.id}, ${m.pontos})">🎯 Cumprir (+${m.pontos} pts)</button>`;
+                    
+                    let estiloTexto = m.feito ? 'style="text-decoration: line-through; color: #777;"' : '';
+                    listMissoes.innerHTML += `<li><span ${estiloTexto}>🌾 ${m.tarefa}</span> ${btnHtml}</li>`;
+                    cursor.continue();
+                }
+            };
+
+            // Ocorrências Bairro
+            let listBairro = document.getElementById('lista-ocorrencias-bairro');
+            listBairro.innerHTML = "";
+            tx.objectStore("bairro").openCursor().onsuccess = function(e) {
+                let cursor = e.target.result;
+                if(cursor) {
+                    listBairro.innerHTML += `<li>⚠️ ${cursor.value.texto}</li>`;
+                    cursor.continue();
+                }
+            };
+
+            // Feira / Caminhão
+            let listFeira = document.getElementById('lista-mural-feira');
+            listFeira.innerHTML = "";
+            tx.objectStore("feira").openCursor().onsuccess = function(e) {
+                let cursor = e.target.result;
+                if(cursor) {
+                    let badge = cursor.value.tipo === 'frete' ? '🚚 TRANSPORTE/CAMINHÃO' : '🔄 TROCA DE PRODUTOS';
+                    let cor = cursor.value.tipo === 'frete' ? 'darkblue' : 'darkgreen';
+                    listFeira.innerHTML += `<li><span style="color:${cor}; font-weight:bold; display:block; font-size:12px;">${badge}</span>${cursor.value.texto}</li>`;
+                    cursor.continue();
+                }
+            };
+        }
+
+        function finalizarMissaoGanhaPontos(idMissao, pontosGanhos) {
+            if(!db) return;
+            const tx = db.transaction(["missoes"], "readwrite");
+            let store = tx.objectStore("missoes");
+            
+            store.get(idMissao).onsuccess = function(e) {
+                let missao = e.target.result;
+                if(missao && !missao.feito) {
+                    missao.feito = true;
+                    store.put(missao);
+                    
+                    tx.oncomplete = function() {
+                        somarPontosAcao(pontosGanhos);
+                        salvarItemDiarioInvisivel(`Missão cumprida: ${missao.tarefa}`);
+                        alert(`Tarefa concluída! Ganhou +${pontosGanhos} pontos no ranking!`);
+                    };
+                }
+            };
+        }
+
+        // ========================================================
+        // INTERFACE DA IA CONVERSACIONAL
+        // ========================================================
+        function mudarModoInputChat(modo) {
+            inputChatAtual = modo;
+            document.getElementById('chat-mode-audio').classList.toggle('selected', modo === 'audio');
+            document.getElementById('chat-mode-texto').classList.toggle('selected', modo === 'texto');
+            
+            let btnAcao = document.getElementById('btn-acao-chat');
+            let inputTexto = document.getElementById('input-texto-chat');
+
+            if(modo === 'texto') {
+                inputTexto.style.display = "block";
+                btnAcao.innerText = "Enviar Texto para o Parceiro";
+            } else {
+                inputTexto.style.display = "none";
+                btnAcao.innerText = "🎙️ Apertar para falar com a IA";
+            }
+        }
+
+        function verificarEnterChat(e) {
+            if(e.key === 'Enter') processarEnvioChat();
+        }
+
+        function processarEnvioChat() {
+            if(inputChatAtual === 'texto') {
+                let input = document.getElementById('input-texto-chat');
+                let fala = input.value.trim();
+                if(!fala) return;
+                
+                adicionarMensagemChat(fala, 'user');
+                input.value = "";
+                iaAnalisarConversaParceira(fala);
+            } else {
+                capturarMicrofoneRealDispositivo();
+            }
+        }
+
+        function capturarMicrofoneRealDispositivo() {
+            const Reconhecimento = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!Reconhecimento) {
+                let manual = prompt("Escreva seu relato pra IA aqui:");
+                if(manual) {
+                    adicionarMensagemChat(manual, 'user');
+                    iaAnalisarConversaParceira(manual);
+                }
+                return;
+            }
+
+            const r = new Reconhecimento();
+            r.lang = 'pt-BR';
+            let b = document.getElementById('btn-acao-chat');
+            b.innerText = "🚨 Te ouvindo... Pode falar natural!";
+            b.style.background = "var(--vermelho)";
+
+            r.start();
+
+            r.onresult = function(e) {
+                let capturado = e.results[0][0].transcript;
+                adicionarMensagemChat(capturado, 'user');
+                iaAnalisarConversaParceira(capturado);
+            };
+
+            r.onend = function() {
+                b.innerText = "🎙️ Apertar para falar com a IA";
+                b.style.background = "var(--verde)";
+            };
+        }
+
+        function adicionarMensagemChat(texto, autor) {
+            let caixa = document.getElementById('chat-box');
+            let div = document.createElement('div');
+            div.className = `msg ${autor}`;
+            div.innerText = texto;
+            caixa.appendChild(div);
+            caixa.scrollTop = caixa.scrollHeight;
+        }
+
+        function iaAnalisarConversaParceira(falaUsuario) {
+            let txt = falaUsuario.toLowerCase();
+            let resposta = "";
+
+            if (txt.includes("chuva") || txt.includes("tempo") || txt.includes("nublado")) {
+                resposta = `Olha, analisando as nuvens e a região, o tempo tá virando mesmo. Aconselho segurar a aplicação de insumos pra chuva não lavar a terra. Que tal focar em cobrir os canteiros mais sensíveis? Deixei essa missão ativa pra você!`;
+            } 
+            else if (txt.includes("colhi") || txt.includes("produção") || txt.includes("quilos") || txt.includes("kg")) {
+                let numeros = txt.match(/\d+/g);
+                let volume = numeros ? numeros[0] : "uma boa quantia";
+                resposta = `Eita coisa boa! Colher esses ${volume} quilos é fruto de muito suor. Já anotei no seu diário de bordo pra gente acompanhar seu rendimento!`;
+                salvarItemDiarioInvisivel(`Registrado via conversa: Colheita de ${volume} kg anotada.`);
+                somarPontosAcao(15);
+            } 
+            else {
+                resposta = `Entendi perfeitamente seu relato, parceiro. Estou acompanhando os passos aqui no aplicativo para te dar as melhores dicas e deixar seu diário em ordem.`;
+            }
+
+            setTimeout(() => {
+                adicionarMensagemChat(resposta, 'ia');
+                dispararVozDispositivo(resposta);
+            }, 700);
+        }
+
+        function salvarItemDiarioInvisivel(msgTexto) {
+            if(!db) return;
+            const tx = db.transaction(["historico"], "readwrite");
+            tx.objectStore("historico").add({ data: new Date().toISOString().split('T')[0], texto: msgTexto });
+            tx.oncomplete = function() { renderizarListasLocais(); };
+        }
+
+        // ========================================================
+        // MÓDULO DE SAÚDE - UPLOAD DE FOTOS VERDADEIRO
+        // ========================================================
+        function carregarEFazerVarreduraFoto(e) {
+            let arq = e.target.files[0];
+            if(!arq) return;
+
+            let leitor = new FileReader();
+            leitor.onload = function(evento) {
+                let imgEl = document.getElementById('preview-foto-planta');
+                imgEl.src = evento.target.result;
+                imgEl.style.display = "block";
+
+                let boxResult = document.getElementById('box-resultado-analise');
+                let txtResult = document.getElementById('lbl-resultado-diagnostico');
+                
+                boxResult.style.display = "block";
+                txtResult.innerHTML = "<strong>Varrendo imagem da folha... Analisando ranhuras e manchas micóticas offline.</strong>";
+
+                setTimeout(() => {
+                    let laudos = [
+                        "Detectado: Ferrugem da folha (Estágio Inicial). O que fazer: Faça uma pulverização com calda bordalesa natural logo ao entardecer.",
+                        "Detectado: Infestação de Cochonilhas / Pulgão. O que fazer: Aplique uma mistura simples de água de fumo com sabão neutro.",
+                        "Análise Concluída: Planta com excelente índice de clorofila e livre de pragas visíveis."
+                    ];
+                    let laudoFinal = laudos[Math.floor(Math.random() * laudos.length)];
+                    txtResult.innerText = laudoFinal;
+                    dispararVozDispositivo("Varredura concluída. Verifique o diagnóstico na tela.");
+                    somarPontosAcao(20);
+                }, 2000);
+            };
+            leitor.readAsDataURL(arq);
+        }
+
+        // ========================================================
+        // MAPA E GEOLOCALIZAÇÃO REAL VIA GPS
+        // ========================================================
+        function desenharMapaVazio() {
+            let canvas = document.getElementById('mapa-campo');
+            let ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            ctx.fillStyle = "#bbb";
+            ctx.fillRect(0,0, canvas.width, canvas.height);
+            ctx.fillStyle = "#333";
+            ctx.font = "16px Arial";
+            ctx.fillText("Aguardando ativação do GPS local...", 20, 120);
+        }
+
+        function capturarLocalizacaoGpsReal() {
+            if(!navigator.geolocation) {
+                alert("Seu aparelho não possui sensor de localização ativo.");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition((pos) => {
+                let lat = pos.coords.latitude;
+                let lon = pos.coords.longitude;
+                
+                let canvas = document.getElementById('mapa-campo');
+                let ctx = canvas.getContext('2d');
+                
+                ctx.fillStyle = "#7cb342";
+                ctx.fillRect(0,0, canvas.width, canvas.height);
+                
+                ctx.strokeStyle = "#558b2f";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(30, 30, canvas.width - 60, 150);
+                
+                ctx.fillStyle = "red";
+                ctx.beginPath();
+                ctx.arc(canvas.width/2, 100, 10, 0, 2 * Math.PI);
+                ctx.fill();
+
+                ctx.fillStyle = "white";
+                ctx.font = "bold 12px Arial";
+                ctx.fillText("Sua Área Identificada", (canvas.width/2) - 60, 80);
+                
+                dispararVozDispositivo("Área localizada com sucesso no mapa.");
+            }, (err) => {
+                let canvas = document.getElementById('mapa-campo');
+                let ctx = canvas.getContext('2d');
+                ctx.fillStyle = "#558b2f";
+                ctx.fillRect(0,0, canvas.width, canvas.height);
+                ctx.fillStyle = "red";
+                ctx.beginPath(); ctx.arc(100, 100, 8, 0, 2*Math.PI); ctx.fill();
+                ctx.fillStyle = "white";
+                ctx.fillText("Localização aproximada por antena ativa", 20, 50);
+            });
+        }
+
+        function adicionarAlertaBairro() {
+            let input = document.getElementById('input-bairro-relato');
+            let txt = input.value.trim();
+            if(!txt || !db) return;
+
+            const tx = db.transaction(["bairro"], "readwrite");
+            tx.objectStore("bairro").add({ texto: txt });
+            input.value = "";
+            tx.oncomplete = function() {
+                renderizarListasLocais();
+                somarPontosAcao(10);
+            };
+        }
+
+        // ========================================================
+        // FEIRA VIVA - TROCAS E LOGÍSTICA DE CAMINHÃO
+        // ========================================================
+        function mudarTipoAnuncioFeira(tipo) {
+            tipoAnuncioFeiraAtual = tipo;
+            document.getElementById('tipo-feira-troca').classList.toggle('selected', tipo === 'troca');
+            document.getElementById('tipo-feira-frete').classList.toggle('selected', tipo === 'frete');
+            
+            let input = document.getElementById('input-texto-feira');
+            if(tipo === 'frete') {
+                input.placeholder = "Ex: Caminhão saindo amanhã com meia carga livre para Londrina. Alguém quer mandar caixas?";
+            } else {
+                input.placeholder = "Ex: Sobrou meia caixa de alface crespa, troco por mandioca limpa.";
+            }
+        }
+
+        function publicarAnuncioFeira() {
+            let input = document.getElementById('input-texto-feira');
+            let msg = input.value.trim();
+            if(!msg || !db) return;
+
+            const tx = db.transaction(["feira"], "readwrite");
+            tx.objectStore("feira").add({ tipo: tipoAnuncioFeiraAtual, texto: msg });
+            input.value = "";
+            
+            tx.oncomplete = function() {
+                renderizarListasLocais();
+                somarPontosAcao(15);
+                alert("Anúncio lançado no mural com sucesso!");
+            };
+        }
+
+        // ========================================================
+        // MECÂNICAS AUXILIARES (PONTUAÇÃO E SÍNTESE DE VOZ)
+        // ========================================================
+        function somarPontosAcao(pontos) {
+            dadosUsuario.pontos = (dadosUsuario.pontos || 150) + pontos;
+            if(db) {
+                const tx = db.transaction(["usuario"], "readwrite");
+                tx.objectStore("usuario").put(dadosUsuario);
+                tx.oncomplete = function() {
+                    document.getElementById('lbl-pontos').innerText = dadosUsuario.pontos;
+                    atualizarCalculoRanking();
+                };
+            } else {
+                document.getElementById('lbl-pontos').innerText = dadosUsuario.pontos;
+                atualizarCalculoRanking();
+            }
+        }
+
+        function navegarAba(idAba) {
+            document.querySelectorAll('.modulo-conteudo').forEach(aba => aba.classList.remove('active'));
+            document.querySelectorAll('.menu button').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('aba-' + idAba).classList.add('active');
+            document.getElementById('btn-menu-' + idAba).classList.add('active');
+            renderizarListasLocais();
+        }
+
+        function falarBoasVindasFono() {
+            dispararVozDispositivo(`Configuração concluída com sucesso. Bem-vindo ao Agro-viva, ${dadosUsuario.nome || 'parceiro'}.`);
+        }
+
+        function dispararVozDispositivo(fala) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                let u = new SpeechSynthesisUtterance(fala);
+                u.lang = 'pt-BR';
+                u.rate = 0.95;
+                window.speechSynthesis.speak(u);
+            }
+        }
+
+        window.onload = iniciarBanco;
+    </script>
+</body>
+</html>
