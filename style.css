@@ -1,0 +1,271 @@
+:root {
+    --verde: #2E4A23;
+    --verde-escuro: #1A330E;
+    --amarelo: #FFD700;
+    --branco: #FFFFFF;
+    --preto: #000000;
+    --cinza: #F4F4F4;
+    --vermelho: #D32F2F;
+    --caixa-msg: #E6F2FF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: var(--cinza);
+    min-height: 100vh;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* BOAS VINDAS */
+#tela-boas-vindas {
+    background: var(--verde);
+    color: var(--branco);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.splash { max-width: 500px; }
+.logo { font-size: 80px; margin-bottom: 20px; }
+.titulo { font-size: 50px; font-weight: bold; margin-bottom: 20px; }
+
+.btn {
+    background: var(--amarelo);
+    color: var(--preto);
+    border: none;
+    padding: 18px 30px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+/* CADASTRO COMPLETO */
+#tela-login { justify-content: center; align-items: center; padding: 20px; }
+.login-box {
+    background: var(--branco);
+    width: 100%;
+    max-width: 500px;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.login-box h2 { margin-bottom: 20px; color: var(--verde); text-align: center; }
+
+.form-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.label-form {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+}
+
+.btn-login {
+    width: 100%;
+    background: var(--verde);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* DASHBOARD STRUCT */
+#tela-dashboard { flex-direction: row; }
+.sidebar {
+    width: 260px;
+    background: var(--preto);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+.logo-menu { font-size: 28px; margin-bottom: 30px; color: var(--amarelo); font-weight: bold; }
+.menu { display: flex; flex-direction: column; gap: 12px; }
+.menu button {
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+.menu button:hover, .menu button.active { background: var(--verde); }
+
+.main { flex: 1; padding: 30px; display: flex; flex-direction: column; min-height: 100vh; }
+.topo { background: var(--verde-escuro); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; }
+
+.modulo-conteudo {
+    display: none;
+    background: var(--branco);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+.modulo-conteudo.active { display: block; }
+.modulo-conteudo h2 { color: var(--verde); margin-bottom: 15px; }
+
+/* LISTAS DINÂMICAS */
+.lista-itens { list-style: none; margin-top: 15px; }
+.lista-itens li {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-cumprir {
+    background: var(--verde);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+.btn-cumprir.feito {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+/* COMPONENTE DE CHAT DA IA */
+.chat-container {
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    background: #fcfcfc;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.msg { padding: 12px 16px; border-radius: 15px; max-width: 85%; font-size: 16px; line-height: 1.4; }
+.msg.ia { background: #e2f0d9; align-self: flex-start; border-left: 5px solid var(--verde); color: var(--verde-escuro); }
+.msg.user { background: var(--caixa-msg); align-self: flex-end; border-right: 5px solid #0066cc; }
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    background: #eee;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    gap: 10px;
+}
+
+/* IMAGEM E PREVIEW DO SCANNER */
+.box-camera {
+    border: 3px dashed var(--verde);
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    background: #f9f9f9;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.img-preview {
+    max-width: 100%;
+    max-height: 250px;
+    display: none;
+    margin: 15px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.resultado-analise {
+    background: #fff3cd;
+    border-left: 6px solid var(--amarelo);
+    padding: 15px;
+    border-radius: 8px;
+    display: none;
+    margin-top: 15px;
+}
+
+/* MAPA RURAL VIA CANVAS */
+#mapa-campo {
+    width: 100%;
+    height: 250px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+/* SELEÇÃO DE TIPO DE ANÚNCIO (FEIRA) */
+.seletor-tipo {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.radio-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    background: white;
+}
+.radio-btn.selected {
+    border-color: var(--verde);
+    background: #e2f0d9;
+    color: var(--verde-escuro);
+}
+
+/* RESPONSIVIDADE */
+@media(max-width: 768px) {
+    #tela-dashboard { flex-direction: column; }
+    .sidebar { width: 100%; min-height: auto; padding: 15px; }
+    .menu { flex-direction: row; flex-wrap: wrap; gap: 5px; }
+    .menu button { flex: 1 1 45%; text-align: center; padding: 8px; font-size: 14px; }
+    .main { padding: 15px; }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroViva - Copiloto do Campo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section id="tela-boas-vindas" class="screen active">
+        <div class="splash">
+            <div class="logo">🌱</div>
+            <div class="titulo">AgroViva</div>
+            <p style="font-size: 20px; margin-bottom: 30px;">O aplicativo parceiro que conversa com você e fortalece a comunidade.</p>
+            <button class="btn" onclick="irParaCadastro()">CONFIGURAR MEU APLICATIVO</button>
+        </div>
+    </section>
+
+    <section id="tela-login" class="screen">
+        <div class="login-box">
+            <h2>📝 Identificação do Produtor</h2>
+            <div class="form-cadastro">
+                <span class="label-form">Qual o seu nome completo ou como gosta de ser chamado?</span>
+                <input type="text" id="reg-nome" class="input" placeholder="Ex: Seu João da Silva" value="Seu João">
+                
+                <span class="label-form">Seu número de telefone/WhatsApp:</span>
+                <input type="tel" id="reg-fone" class="input" placeholder="Ex: (43) 99999-1234" value="(43) 99999-8877">
+                
+                <span class="label-form">Qual o CEP da região ou da cidade mais próxima?</span>
+                <input type="text" id="reg-cep" class="input" placeholder="Ex: 86000-000" value="84000-000">
+
+                <span class="label-form">Nome da comunidade rural, bairro ou distrito:</span>
+                <input type="text" id="reg-bairro" class="input" placeholder="Ex: Assentamento Boa Vista / Interior do PR" value="Interior do Paraná">
+
+                <button class="btn-login" onclick="salvarCadastroEEntrar()">Salvar e Ativar Aplicativo</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="tela-dashboard" class="screen">
+        <div class="sidebar">
+            <div class="logo-menu">🌱 AgroViva</div>
+            <div class="menu">
+                <button id="btn-menu-home" class="active" onclick="navegarAba('home')">🏠 Resumo Geral</button>
+                <button id="btn-menu-parceiro" onclick="navegarAba('parceiro')">🤝 Falar com a Terra (IA)</button>
+                <button id="btn-menu-missoes" onclick="navegarAba('missoes')">🌾 Missões Diárias</button>
+                <button id="btn-menu-saude" onclick="navegarAba('saude')">🔍 Saúde da Lavoura</button>
+                <button id="btn-menu-bairro" onclick="navegarAba('bairro')">🗺️ Nosso Bairro</button>
+                <button id="btn-menu-feira" onclick="navegarAba('feira')">🧺 Feira & Caminhão</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="topo">
+                <h1 id="txt-boas-vindas-topo">Carregando...</h1>
+                <p id="txt-subtitulo-topo">Localidade: Carregando... | Modo 100% Offline Garantido</p>
+            </div>
+
+            <div id="aba-home" class="modulo-conteudo active">
+                <h2>Acompanhamento da sua Lida</h2>
+                <div style="background: #e2f0d9; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 6px solid var(--verde);">
+                    <h3 style="color: var(--verde-escuro);">🏆 Painel de Evolução do Produtor</h3>
+                    <p style="margin-top: 5px; font-size: 18px;">Pontuação Atual: <strong id="lbl-pontos">150</strong> pontos acumulados</p>
+                    <p style="font-size: 16px; color: #555;">Sua colocação no ranking regional: <strong id="txt-ranking-pos">3º Lugar no bairro</strong></p>
+                </div>
+                <h3>📜 Atividades Registradas Automaticamente:</h3>
+                <ul class="lista-itens" id="lista-atividades-home"></ul>
+            </div>
+
+            <div id="aba-parceiro" class="modulo-conteudo">
+                <h2>🤝 Seu Parceiro de Campo Inteligente</h2>
+                <p style="margin-bottom: 15px; color:#555;">Escolha como prefere conversar agora. Ele te ouve, debate soluções sobre a terra e guarda tudo no seu diário.</p>
+                
+                <div class="seletor-tipo">
+                    <div id="chat-mode-audio" class="radio-btn selected" onclick="mudarModoInputChat('audio')">🎙️ Conversar por Áudio</div>
+                    <div id="chat-mode-texto" class="radio-btn" onclick="mudarModoInputChat('texto')">⌨️ Conversar por Escrita</div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-box">
+                        <div class="msg ia">Olá! Sou seu parceiro de plantio. Como estão as coisas na terra hoje? Pode me relatar sobre o clima, o solo ou a colheita que eu te ajudo no manejo.</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="input-texto-chat" class="input" placeholder="Escreva sobre o que está ocorrendo na terra..." style="display:none;" onkeypress="verificarEnterChat(event)">
+                        <button class="btn-login" id="btn-acao-chat" onclick="processarEnvioChat()" style="margin:0;">🎙️ Apertar para falar com a IA</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aba-missoes" class="modulo-conteudo">
+                <h2>🌾 Missões Diárias de Manejo</h2>
+                <p style="color: #555; margin-bottom: 15px;">Cumpra as tarefas geradas pela IA parceira com base nas condições do tempo para proteger seu plantio e subir no ranking!</p>
+                
+                <ul class="lista-itens" id="lista-missoes-campo">
+                    </ul>
+            </div>
+
+            <div id="aba-saude" class="modulo-conteudo">
+                <h2>🔍 Varredura e Identificação de Doenças</h2>
+                <p style="margin-bottom: 15px;">Escolha ou tire uma foto real das folhas ou frutos machucados para a IA examinar o tratamento adequado.</p>
+                
+                <div class="box-camera" onclick="document.getElementById('campo-foto').click()">
+                    <span style="font-size: 50px;">📷</span>
+                    <p>Clique para selecionar ou tirar uma foto do plantio</p>
+                    <input type="file" id="campo-foto" style="display:none;" accept="image/*" onchange="carregarEFazerVarreduraFoto(event)">
+                </div>
+
+                <img id="preview-foto-planta" class="img-preview" alt="Planta enviada">
+
+                <div class="resultado-analise" id="box-resultado-analise">
+                    <h3>🔬 Diagnóstico do seu Parceiro Digital:</h3>
+                    <p id="lbl-resultado-diagnostico" style="margin-top: 8px; font-size: 16px; color: #333;"></p>
+                </div>
+            </div>
+
+            <div id="aba-bairro" class="modulo-conteudo">
+                <h2>🗺️ Ocorrências e Mapa do Bairro</h2>
+                <p>Ative a localização para que o AgroViva mapeie sua área de trabalho atual.</p>
+                
+                <button class="btn" style="font-size:16px; padding:10px 20px; margin-top:10px;" onclick="capturarLocalizacaoGpsReal()">📍 Localizar minha Área no Mapa</button>
+                <canvas id="mapa-campo"></canvas>
+
+                <h3 style="margin-top: 25px;">🚨 Reportar Problema na Estrada ou Pontes</h3>
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <input type="text" id="input-bairro-relato" class="input" placeholder="Ex: Árvore caída bloqueando a entrada principal">
+                    <button class="btn" style="font-size:16px; padding:10px;" onclick="adicionarAlertaBairro()">Enviar</button>
+                </div>
+                <ul class="lista-itens" id="lista-ocorrencias-bairro"></ul>
+            </div>
+
+            <div id="aba-feira" class="modulo-conteudo">
+                <h2>🧺 Feira Viva e Logística Compartilhada</h2>
+                <p style="margin-bottom: 20px;">Anuncie trocas de excedentes de colheita ou ofereça espaço sobrando no seu transporte para ajudar vizinhos a levarem mercadorias para a cidade.</p>
+                
+                <div style="background:#f9f9f9; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:20px;">
+                    <h3>📢 Publicar Novo Anúncio</h3>
+                    <div class="seletor-tipo" style="margin-top:10px;">
+                        <div id="tipo-feira-troca" class="radio-btn selected" onclick="mudarTipoAnuncioFeira('troca')">🔄 Troca/Doação de Alimentos</div>
+                        <div id="tipo-feira-frete" class="radio-btn" onclick="mudarTipoAnuncioFeira('frete')">🚚 Oferecer Espaço/Carga no Caminhão</div>
+                    </div>
+                    <input type="text" id="input-texto-feira" class="input" placeholder="Escreva o anúncio (Ex: Tenho espaço no caminhão amanhã cedo para Londrina)">
+                    <button class="btn-login" onclick="publicarAnuncioFeira()">Lançar no Aplicativo</button>
+                </div>
+
+                <h3>📋 Mural da Comunidade:</h3>
+                <ul class="lista-itens" id="lista-mural-feira"></ul>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
