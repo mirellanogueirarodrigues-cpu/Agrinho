@@ -72,7 +72,7 @@ function salvarCadastroEEntrar() {
         transacao.objectStore("feira").add({ tipo: "troca", texto: "Troco 3 sacas de milho seco por esterco bovino curtido." });
         
         transacao.objectStore("missoes").add({ tarefa: "Reforçar a cobertura de palhada nos canteiros baixos (Previsão de Chuva Forte)", pontos: 50, feito: false });
-        transacao.objectStore("missoes").add({ tarefa: "Calibragem preventiva dos bicos de irrigação gotejadora", pontos: 30, slice: false });
+        transacao.objectStore("missoes").add({ tarefa: "Calibragem preventiva dos bicos de irrigação gotejadora", pontos: 30, feito: false });
         transacao.objectStore("missoes").add({ tarefa: "Registrar a checagem semanal do filtro de óleo do maquinário", pontos: 40, feito: false });
 
         transacao.oncomplete = function() {
@@ -461,7 +461,7 @@ function navegarAba(idAba) {
     renderizarListasLocais();
 }
 
-function falarBoasVindasFono() {
+function hablarBoasVindasFono() {
     dispararVozDispositivo(`Configuração concluída com sucesso. Bem-vindo ao Agro-viva, ${dadosUsuario.nome || 'parceiro'}.`);
 }
 
@@ -475,5 +475,4 @@ function dispararVozDispositivo(fala) {
     }
 }
 
-// Inicializar o banco assim que a página terminar de carregar
 window.onload = iniciarBanco;
