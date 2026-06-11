@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroViva - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section id="tela-login" class="screen active">
+        <div class="login-box">
+            <h2>👨‍🌾 Cadastro do Produtor</h2>
+
+            <div class="form-cadastro">
+                <span class="label-form">Nome</span>
+                <input type="text" id="reg-nome" class="input">
+
+                <span class="label-form">Telefone</span>
+                <input type="tel" id="reg-fone" class="input">
+
+                <span class="label-form">CEP</span>
+                <input type="text" id="reg-cep" class="input">
+
+                <span class="label-form">Comunidade / Bairro Rural</span>
+                <input type="text" id="reg-bairro" class="input">
+
+                <hr>
+
+                <h3>🌾 Informações da Plantação</h3>
+
+                <span class="label-form">Cultura Principal</span>
+                <select id="reg-cultura" class="input">
+                    <option value="">Selecione</option>
+                    <option>Milho</option>
+                    <option>Soja</option>
+                    <option>Feijão</option>
+                    <option>Tomate</option>
+                    <option>Alface</option>
+                    <option>Mandioca</option>
+                    <option>Batata</option>
+                    <option>Hortaliças</option>
+                </select>
+
+                <span class="label-form">Área Plantada (hectares)</span>
+                <input type="number" id="reg-area" class="input">
+
+                <span class="label-form">Data do Plantio</span>
+                <input type="date" id="reg-plantio" class="input">
+
+                <button class="btn-login" onclick="salvarCadastroEEntrar()">
+                    Salvar e Entrar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

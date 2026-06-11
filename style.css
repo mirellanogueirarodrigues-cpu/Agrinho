@@ -1,29 +1,28 @@
+/* ==========================================================================
+   VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   ========================================================================== */
 :root {
-    --verde: #2E4A23;
-    --verde-escuro: #1A330E;
-    --amarelo: #FFD700;
-    --branco: #FFFFFF;
-    --preto: #000000;
-    --cinza: #F4F4F4;
-    --vermelho: #D32F2F;
-    --caixa-msg: #E6F2FF;
+    --verde: #2E7D32;
+    --verde-escuro: #1B5E20;
+    --amarelo: #FBC02D;
+    --cinza-claro: #f8f8f8;
 }
 
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    box-box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background: var(--cinza);
-    min-height: 100vh;
+    background-color: #f0f2f5;
+    color: #333;
 }
 
+/* Estrutura de Telas */
 .screen {
     display: none;
-    width: 100%;
     min-height: 100vh;
 }
 
@@ -31,241 +30,166 @@ body {
     display: flex;
 }
 
-/* BOAS VINDAS */
-#tela-boas-vindas {
-    background: var(--verde);
-    color: var(--branco);
-    justify-content: center;
-    align-items: center;
+/* Splash / Welcome */
+.splash {
+    margin: auto;
     text-align: center;
     padding: 20px;
 }
 
-.splash { max-width: 500px; }
-.logo { font-size: 80px; margin-bottom: 20px; }
-.titulo { font-size: 50px; font-weight: bold; margin-bottom: 20px; }
+.logo { font-size: 80px; margin-bottom: 10px; }
+.titulo { font-size: 36px; font-weight: bold; color: var(--verde); margin-bottom: 10px; }
 
-.btn {
-    background: var(--amarelo);
-    color: var(--preto);
-    border: none;
-    padding: 18px 30px;
-    border-radius: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-
-/* CADASTRO COMPLETO */
-#tela-login { justify-content: center; align-items: center; padding: 20px; }
+/* Cadastro / Login Box */
 .login-box {
-    background: var(--branco);
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 500px;
-    padding: 35px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-.login-box h2 { margin-bottom: 20px; color: var(--verde); text-align: center; }
-
-.form-cadastro {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    max-width: 450px;
 }
 
-.label-form {
-    font-weight: bold;
-    color: #333;
-    font-size: 14px;
-}
+.form-cadastro h3 { margin: 15px 0 10px 0; color: var(--verde); }
+.label-form { display: block; margin-top: 10px; font-weight: 6px; font-size: 14px; }
+.input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+hr { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
 
-.input {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 2px solid #ccc;
-}
-
-.btn-login {
-    width: 100%;
+/* Botões */
+.btn, .btn-login {
     background: var(--verde);
     color: white;
-    padding: 15px;
     border: none;
-    border-radius: 10px;
-    font-size: 18px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
     font-weight: bold;
-    margin-top: 10px;
+    transition: background 0.3s;
 }
 
-/* DASHBOARD STRUCT */
-#tela-dashboard { flex-direction: row; }
+.btn:hover, .btn-login:hover { background: var(--verde-escuro); }
+
+/* Layout Dashboard */
+#tela-dashboard {
+    display: none; /* Controlado pela classe .active */
+    width: 100%;
+}
+
+#tela-dashboard.active {
+    display: flex;
+}
+
 .sidebar {
     width: 260px;
-    background: var(--preto);
+    background: var(--verde-escuro);
     color: white;
-    min-height: 100vh;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
 }
-.logo-menu { font-size: 28px; margin-bottom: 30px; color: var(--amarelo); font-weight: bold; }
-.menu { display: flex; flex-direction: column; gap: 12px; }
+
+.logo-menu { font-size: 22px; font-weight: bold; margin-bottom: 30px; }
 .menu button {
+    width: 100%;
     background: none;
     border: none;
-    color: white;
+    color: #fff;
+    padding: 12px;
     text-align: left;
-    padding: 15px;
-    border-radius: 10px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 18px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    transition: 0.2s;
 }
 .menu button:hover, .menu button.active { background: var(--verde); }
 
-.main { flex: 1; padding: 30px; display: flex; flex-direction: column; min-height: 100vh; }
-.topo { background: var(--verde-escuro); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; }
-
-.modulo-conteudo {
-    display: none;
-    background: var(--branco);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 30px;
-}
+.main { flex: 1; padding: 30px; overflow-y: auto; }
+.topo { margin-bottom: 30px; }
+.modulo-conteudo { display: none; }
 .modulo-conteudo.active { display: block; }
-.modulo-conteudo h2 { color: var(--verde); margin-bottom: 15px; }
 
-/* LISTAS DINÂMICAS */
-.lista-itens { list-style: none; margin-top: 15px; }
-.lista-itens li {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-    background: #fafafa;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    font-size: 16px;
-    line-height: 1.4;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.btn-cumprir {
-    background: var(--verde);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-}
-.btn-cumprir.feito {
-    background: #aaa;
-    cursor: not-allowed;
-}
-
-/* COMPONENTE DE CHAT DA IA */
-.chat-container {
-    border: 2px solid #ccc;
-    border-radius: 12px;
-    background: #fcfcfc;
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-}
-.chat-messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-.msg { padding: 12px 16px; border-radius: 15px; max-width: 85%; font-size: 16px; line-height: 1.4; }
-.msg.ia { background: #e2f0d9; align-self: flex-start; border-left: 5px solid var(--verde); color: var(--verde-escuro); }
-.msg.user { background: var(--caixa-msg); align-self: flex-end; border-right: 5px solid #0066cc; }
-
-.chat-input-area {
-    display: flex;
-    padding: 10px;
-    background: #eee;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    gap: 10px;
-}
-
-/* IMAGEM E PREVIEW DO SCANNER */
-.box-camera {
-    border: 3px dashed var(--verde);
-    padding: 30px;
-    text-align: center;
-    border-radius: 10px;
-    background: #f9f9f9;
-    cursor: pointer;
+/* ==========================================================================
+   CARDS DO DASHBOARD
+   ========================================================================== */
+.card-status {
+    background: var(--cinza-claro);
+    border-left: 6px solid var(--verde);
+    padding: 20px;
     margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }
-.img-preview {
-    max-width: 100%;
-    max-height: 250px;
-    display: none;
-    margin: 15px auto;
+
+.card-status h3 { color: var(--verde); margin-bottom: 10px; }
+.card-status p { font-size: 18px; margin: 8px 0; }
+
+/* ==========================================================================
+   INFORMAÇÕES E BOTÕES DA LAVOURA
+   ========================================================================== */
+#aba-lavoura p {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+#aba-lavoura strong { color: var(--verde-escuro); }
+#aba-lavoura .btn { width: auto; margin-right: 10px; display: inline-block; }
+
+/* ==========================================================================
+   SAÚDE DA LAVOURA & IMAGEM
+   ========================================================================== */
+#lbl-saude-grande { font-size: 50px; color: var(--verde); margin-bottom: 10px; }
+#txt-status-saude { font-size: 18px; color: #555; }
+
+.img-preview {
+    display: none;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    margin: 15px 0;
 }
 
 .resultado-analise {
-    background: #fff3cd;
+    display: block;
+    background: #fff8e1;
     border-left: 6px solid var(--amarelo);
     padding: 15px;
     border-radius: 8px;
-    display: none;
     margin-top: 15px;
 }
 
-/* MAPA RURAL VIA CANVAS */
-#mapa-campo {
-    width: 100%;
-    height: 250px;
-    background: #ddd;
-    border-radius: 10px;
-    margin-top: 15px;
-}
+/* ==========================================================================
+   CHAT IA
+   ========================================================================== */
+.chat-container { border: 2px solid #ddd; border-radius: 12px; overflow: hidden; background: white; margin-top: 15px; }
+.chat-messages { height: 350px; overflow-y: auto; padding: 15px; }
+.msg { padding: 12px 15px; margin-bottom: 10px; border-radius: 12px; max-width: 85%; font-size: 16px; }
+.msg.user { background: #d9ebff; margin-left: auto; }
+.msg.ia { background: #e2f0d9; border-left: 5px solid var(--verde); }
+.chat-input-area { display: flex; gap: 10px; padding: 10px; background: #f0f0f0; }
+.chat-input-area .input { margin-top: 0; flex: 1; }
+.chat-input-area button { width: auto; margin-top: 0; }
 
-/* SELEÇÃO DE TIPO DE ANÚNCIO (FEIRA) */
-.seletor-tipo {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-.radio-btn {
-    flex: 1;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    font-weight: bold;
-    background: white;
-}
-.radio-btn.selected {
-    border-color: var(--verde);
-    background: #e2f0d9;
-    color: var(--verde-escuro);
-}
+/* Lista de Itens (Missões e Diário) */
+.lista-itens { list-style: none; margin-top: 15px; }
+.lista-itens li { padding: 15px; margin-bottom: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+#lista-atividades-home li { border-left: 5px solid var(--verde); }
+#lista-missoes-campo li { background: #fafafa; border-left: 5px solid var(--amarelo); }
 
-/* RESPONSIVIDADE */
-@media(max-width: 768px) {
-    #tela-dashboard { flex-direction: column; }
-    .sidebar { width: 100%; min-height: auto; padding: 15px; }
-    .menu { flex-direction: row; flex-wrap: wrap; gap: 5px; }
-    .menu button { flex: 1 1 45%; text-align: center; padding: 8px; font-size: 14px; }
+/* ==========================================================================
+   RESPONSIVIDADE (MOBILE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    #tela-dashboard.active { flex-direction: column; }
+    .sidebar { width: 100%; padding: 15px; }
     .main { padding: 15px; }
+    #aba-lavoura .btn { width: 100%; margin-right: 0; }
+    #lbl-saude-grande { font-size: 40px; }
+    .chat-messages { height: 250px; }
 }

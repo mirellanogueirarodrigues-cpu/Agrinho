@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroViva - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section id="tela-dashboard" class="screen active">
+        
+        <div class="sidebar">
+            <div class="logo-menu">🌱 AgroViva</div>
+            <div class="menu">
+                <button id="btn-menu-home" class="active" onclick="navegarAba('home')">🏠 Resumo</button>
+                <button id="btn-menu-lavoura" onclick="navegarAba('lavoura')">🌾 Minha Lavoura</button>
+                <button id="btn-menu-parceiro" onclick="navegarAba('parceiro')">🤝 IA Agrícola</button>
+                <button id="btn-menu-missoes" onclick="navegarAba('missoes')">🎯 Missões</button>
+                <button id="btn-menu-saude" onclick="navegarAba('saude')">❤️ Saúde da Lavoura</button>
+                <button id="btn-menu-diario" onclick="navegarAba('diario')">📜 Diário</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="topo">
+                <h1 id="txt-boas-vindas-topo">Painel de Controle</h1>
+                <p id="txt-subtitulo-topo">Bem-vindo de volta ao seu copiloto de campo.</p>
+            </div>
+
+            <div id="aba-home" class="modulo-conteudo active">
+                <h2>🏆 Painel do Produtor</h2>
+                <div class="card-status">
+                    <p>Pontuação: <strong id="lbl-pontos">0</strong></p>
+                    <p>Ranking: <strong id="txt-ranking-pos">Agricultor Iniciante</strong></p>
+                </div>
+                <div class="card-status">
+                    <h3>🌱 Saúde da Lavoura</h3>
+                    <p id="lbl-saude-home">100%</p>
+                </div>
+            </div>
+
+            <div id="aba-lavoura" class="modulo-conteudo">
+                <h2>🌾 Dados da Plantação</h2>
+                <p>Cultura: <strong id="info-cultura">-</strong></p>
+                <p>Área: <strong id="info-area">-</strong></p>
+                <p>Dias desde o plantio: <strong id="info-dias">-</strong></p>
+                <hr style="margin: 20px 0;">
+                <button class="btn" onclick="registrarIrrigacao()">💧 Registrar Irrigação</button>
+                <button class="btn" onclick="registrarAdubacao()">🌱 Registrar Adubação</button>
+                <button class="btn" onclick="registrarColheita()">🚜 Registrar Colheita</button>
+            </div>
+
+            <div id="aba-parceiro" class="modulo-conteudo">
+                <h2>🤝 Conversar com a Terra</h2>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-box">
+                        <div class="msg ia">Olá! Já analisei sua plantação. Como posso ajudar hoje?</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="input-texto-chat" class="input" placeholder="Descreva o problema da lavoura..." onkeypress="verificarEnterChat(event)">
+                        <button class="btn-login" onclick="processarEnvioChat()">Enviar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="aba-missoes" class="modulo-conteudo">
+                <h2>🎯 Missões Inteligentes</h2>
+                <ul class="lista-itens" id="lista-missoes-campo">
+                    </ul>
+            </div>
+
+            <div id="aba-saude" class="modulo-conteudo">
+                <h2>❤️ Saúde da Lavoura</h2>
+                <h3 id="lbl-saude-grande">100%</h3>
+                <p id="txt-status-saude">Sua plantação está estável.</p>
+                <br>
+                <input type="file" id="campo-foto" accept="image/*" onchange="carregarEFazerVarreduraFoto(event)">
+                <img id="preview-foto-planta" class="img-preview" alt="Preview">
+                <div class="resultado-analise" id="box-resultado-analise">
+                    <h3>Diagnóstico</h3>
+                    <p id="lbl-resultado-diagnostico">Nenhuma anomalia detectada até o momento.</p>
+                </div>
+            </div>
+
+            <div id="aba-diario" class="modulo-conteudo">
+                <h2>📜 Diário Agrícola</h2>
+                <ul class="lista-itens" id="lista-atividades-home">
+                    </ul>
+            </div>
+        </div>
+
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
