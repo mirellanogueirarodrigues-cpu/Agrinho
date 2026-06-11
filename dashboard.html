@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroViva - Dashboard</title>
+    <title>AgroViva - Dashboard Operacional</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,78 +13,84 @@
         <div class="sidebar">
             <div class="logo-menu">🌱 AgroViva</div>
             <div class="menu">
-                <button id="btn-menu-home" class="active" onclick="navegarAba('home')">🏠 Resumo</button>
+                <button id="btn-menu-home" class="active" onclick="navegarAba('home')">🏠 Resumo Geral</button>
                 <button id="btn-menu-lavoura" onclick="navegarAba('lavoura')">🌾 Minha Lavoura</button>
                 <button id="btn-menu-parceiro" onclick="navegarAba('parceiro')">🤝 IA Agrícola</button>
-                <button id="btn-menu-missoes" onclick="navegarAba('missoes')">🎯 Missões</button>
-                <button id="btn-menu-saude" onclick="navegarAba('saude')">❤️ Saúde da Lavoura</button>
-                <button id="btn-menu-diario" onclick="navegarAba('diario')">📜 Diário</button>
+                <button id="btn-menu-missoes" onclick="navegarAba('missoes')">🎯 Missões do Campo</button>
+                <button id="btn-menu-saude" onclick="navegarAba('saude')">❤️ Diagnóstico de Saúde</button>
+                <button id="btn-menu-diario" onclick="navegarAba('diario')">📜 Diário de Bordo</button>
             </div>
         </div>
 
         <div class="main">
             <div class="topo">
                 <h1 id="txt-boas-vindas-topo">Painel de Controle</h1>
-                <p id="txt-subtitulo-topo">Bem-vindo de volta ao seu copiloto de campo.</p>
+                <p id="txt-subtitulo-topo">Gerenciamento inteligente em tempo real.</p>
             </div>
 
             <div id="aba-home" class="modulo-conteudo active">
-                <h2>🏆 Painel do Produtor</h2>
+                <h2>🏆 Desempenho e Pontuação</h2>
                 <div class="card-status">
-                    <p>Pontuação: <strong id="lbl-pontos">0</strong></p>
-                    <p>Ranking: <strong id="txt-ranking-pos">Agricultor Iniciante</strong></p>
+                    <p>Experiência Acumulada: <strong id="lbl-pontos" style="color: #3B533E; font-size: 24px;">0</strong> pontos</p>
+                    <p>Nível Atual: <strong id="txt-ranking-pos" style="color: #3B533E;">Carregando ranking...</strong></p>
                 </div>
                 <div class="card-status">
-                    <h3>🌱 Saúde da Lavoura</h3>
-                    <p id="lbl-saude-home">100%</p>
+                    <h3>🌱 Status Atual da Lavoura</h3>
+                    <p id="lbl-saude-home" style="font-size: 28px; font-weight: bold; color: #3B533E;">Estável</p>
                 </div>
             </div>
 
             <div id="aba-lavoura" class="modulo-conteudo">
-                <h2>🌾 Dados da Plantação</h2>
-                <p>Cultura: <strong id="info-cultura">-</strong></p>
-                <p>Área: <strong id="info-area">-</strong></p>
-                <p>Dias desde o plantio: <strong id="info-dias">-</strong></p>
-                <hr style="margin: 20px 0;">
-                <button class="btn" onclick="registrarIrrigacao()">💧 Registrar Irrigação</button>
-                <button class="btn" onclick="registrarAdubacao()">🌱 Registrar Adubação</button>
-                <button class="btn" onclick="registrarColheita()">🚜 Registrar Colheita</button>
+                <h2>🌾 Detalhes Técnicos do Talhão</h2>
+                <p>Cultura Selecionada: <strong id="info-cultura">-</strong></p>
+                <p>Área Mapeada: <strong id="info-area">-</strong></p>
+                <p>Tempo Cronológico: <strong id="info-dias">-</strong></p>
+                
+                <div class="grid-botoes">
+                    <button class="btn" onclick="registrarIrrigacao()">💧 Registrar Irrigação (+15 pts)</button>
+                    <button class="btn" onclick="registrarAdubacao()">🌱 Registrar Adubação (+20 pts)</button>
+                    <button class="btn" onclick="registrarColheita()">🚜 Finalizar Ciclo Colheita (+100 pts)</button>
+                </div>
             </div>
 
             <div id="aba-parceiro" class="modulo-conteudo">
-                <h2>🤝 Conversar com a Terra</h2>
+                <h2>🤝 Conversar com o Assistente de Campo</h2>
                 <div class="chat-container">
                     <div class="chat-messages" id="chat-box">
-                        <div class="msg ia">Olá! Já analisei sua plantação. Como posso ajudar hoje?</div>
+                        <div class="msg ia">Olá! Já analisei os dados da sua propriedade e localização. Como posso te auxiliar no manejo de hoje?</div>
                     </div>
                     <div class="chat-input-area">
-                        <input type="text" id="input-texto-chat" class="input" placeholder="Descreva o problema da lavoura..." onkeypress="verificarEnterChat(event)">
+                        <input type="text" id="input-texto-chat" class="input" placeholder="Descreva sintomas, dúvidas ou condições climáticas..." onkeypress="verificarEnterChat(event)">
                         <button class="btn-login" onclick="processarEnvioChat()">Enviar</button>
                     </div>
                 </div>
             </div>
 
             <div id="aba-missoes" class="modulo-conteudo">
-                <h2>🎯 Missões Inteligentes</h2>
+                <h2>🎯 Missões do Dia (Ações Reais)</h2>
+                <p style="color: #606860; margin-bottom: 15px;">Cumpra as metas diárias para otimizar seus pontos e subir de ranking.</p>
                 <ul class="lista-itens" id="lista-missoes-campo">
                     </ul>
             </div>
 
             <div id="aba-saude" class="modulo-conteudo">
-                <h2>❤️ Saúde da Lavoura</h2>
-                <h3 id="lbl-saude-grande">100%</h3>
-                <p id="txt-status-saude">Sua plantação está estável.</p>
-                <br>
-                <input type="file" id="campo-foto" accept="image/*" onchange="carregarEFazerVarreduraFoto(event)">
-                <img id="preview-foto-planta" class="img-preview" alt="Preview">
+                <h2>❤️ Diagnóstico de Saúde por Imagem</h2>
+                <p>Envie fotos reais das folhas ou do solo para detecção e classificação imediata de anomalias.</p>
+                
+                <label for="campo-foto" class="btn-upload">📸 Escolher Imagem da Plantação</label>
+                <input type="file" id="campo-foto" accept="image/*" style="display: none;" onchange="carregarEFazerVarreduraFoto(event)">
+                
+                <img id="preview-foto-planta" class="img-preview" alt="Preview da Amostra">
+                
                 <div class="resultado-analise" id="box-resultado-analise">
-                    <h3>Diagnóstico</h3>
-                    <p id="lbl-resultado-diagnostico">Nenhuma anomalia detectada até o momento.</p>
+                    <h3>📋 Relatório Analítico da IA</h3>
+                    <p id="lbl-resultado-diagnostico">Aguardando inserção de amostra foliar...</p>
                 </div>
             </div>
 
             <div id="aba-diario" class="modulo-conteudo">
-                <h2>📜 Diário Agrícola</h2>
+                <h2>📜 Histórico de Manejo (Logs Automáticos)</h2>
+                <p style="color: #606860;">Rastreabilidade completa de todas as ações tomadas dentro da plataforma.</p>
                 <ul class="lista-itens" id="lista-atividades-home">
                     </ul>
             </div>

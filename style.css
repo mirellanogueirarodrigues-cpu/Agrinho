@@ -1,29 +1,34 @@
 /* ==========================================================================
-   VARIÁVEIS E CONFIGURAÇÕES GERAIS
+   PALETA DE CORES AGROVIVA (VERDE MILITAR E VERDE CLARO)
    ========================================================================== */
 :root {
-    --verde: #2E7D32;
-    --verde-escuro: #1B5E20;
-    --amarelo: #FBC02D;
-    --cinza-claro: #f8f8f8;
+    --verde-militar: #3B533E;       /* Verde escuro base militar */
+    --verde-militar-escuro: #2C3E2E;/* Tom mais fechado para cabeçalhos e hover */
+    --verde-claro: #8FBC8F;         /* Verde claro acentuado (DarkSeaGreen) */
+    --verde-claro-suave: #E8F0E9;   /* Fundo tonalizado muito leve para blocos */
+    --amarelo-alerta: #D4A373;      /* Tom terroso/amarelado para alertas e missões */
+    --cinza-fundo: #F4F6F4;         /* Fundo geral da aplicação */
+    --branco: #FFFFFF;
+    --texto-escuro: #2A342B;
 }
 
 * {
     margin: 0;
     padding: 0;
-    box-box-sizing: border-box;
+    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f0f2f5;
-    color: #333;
+    background-color: var(--cinza-fundo);
+    color: var(--texto-escuro);
 }
 
 /* Estrutura de Telas */
 .screen {
     display: none;
     min-height: 100vh;
+    width: 100%;
 }
 
 .screen.active {
@@ -34,48 +39,109 @@ body {
 .splash {
     margin: auto;
     text-align: center;
-    padding: 20px;
+    padding: 30px;
+    background: var(--branco);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(59, 83, 62, 0.1);
+    max-width: 500px;
+    width: 90%;
 }
 
-.logo { font-size: 80px; margin-bottom: 10px; }
-.titulo { font-size: 36px; font-weight: bold; color: var(--verde); margin-bottom: 10px; }
+.logo { 
+    font-size: 80px; 
+    margin-bottom: 15px; 
+}
+
+.titulo { 
+    font-size: 38px; 
+    font-weight: bold; 
+    color: var(--verde-militar); 
+    margin-bottom: 15px; 
+}
 
 /* Cadastro / Login Box */
 .login-box {
     margin: auto;
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background: var(--branco);
+    padding: 40px 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(59, 83, 62, 0.12);
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
 }
 
-.form-cadastro h3 { margin: 15px 0 10px 0; color: var(--verde); }
-.label-form { display: block; margin-top: 10px; font-weight: 6px; font-size: 14px; }
-.input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
-hr { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
+.login-box h2 {
+    color: var(--verde-militar);
+    margin-bottom: 20px;
+    font-size: 24px;
+    border-bottom: 2px solid var(--verde-claro);
+    padding-bottom: 8px;
+}
+
+.form-cadastro h3 { 
+    margin: 25px 0 15px 0; 
+    color: var(--verde-militar); 
+    font-size: 18px;
+}
+
+.label-form { 
+    display: block; 
+    margin-top: 14px; 
+    font-weight: 600; 
+    font-size: 14px; 
+    color: var(--verde-militar);
+}
+
+.input { 
+    width: 100%; 
+    padding: 12px; 
+    margin-top: 6px; 
+    border: 1px solid #C0C8C0; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    background-color: #FCFDFC;
+    transition: border-color 0.3s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--verde-militar);
+}
+
+hr { 
+    margin: 25px 0; 
+    border: 0; 
+    border-top: 1px solid #D0D8D0; 
+}
 
 /* Botões */
 .btn, .btn-login {
-    background: var(--verde);
-    color: white;
+    background: var(--verde-militar);
+    color: var(--branco);
     border: none;
-    padding: 12px 20px;
+    padding: 14px 24px;
     font-size: 16px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 20px;
     font-weight: bold;
-    transition: background 0.3s;
+    transition: background 0.3s, transform 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.btn:hover, .btn-login:hover { background: var(--verde-escuro); }
+.btn:hover, .btn-login:hover { 
+    background: var(--verde-militar-escuro); 
+}
+
+.btn:active, .btn-login:active {
+    transform: scale(0.99);
+}
 
 /* Layout Dashboard */
 #tela-dashboard {
-    display: none; /* Controlado pela classe .active */
+    display: none; 
     width: 100%;
 }
 
@@ -84,112 +150,335 @@ hr { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
 }
 
 .sidebar {
-    width: 260px;
-    background: var(--verde-escuro);
-    color: white;
-    padding: 20px;
+    width: 280px;
+    background: var(--verde-militar);
+    color: var(--branco);
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.05);
 }
 
-.logo-menu { font-size: 22px; font-weight: bold; margin-bottom: 30px; }
+.logo-menu { 
+    font-size: 26px; 
+    font-weight: bold; 
+    margin-bottom: 35px; 
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px;
+}
+
 .menu button {
     width: 100%;
     background: none;
     border: none;
-    color: #fff;
-    padding: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 14px 16px;
     text-align: left;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 6px;
-    margin-bottom: 5px;
-    transition: 0.2s;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
 }
-.menu button:hover, .menu button.active { background: var(--verde); }
 
-.main { flex: 1; padding: 30px; overflow-y: auto; }
-.topo { margin-bottom: 30px; }
-.modulo-conteudo { display: none; }
-.modulo-conteudo.active { display: block; }
+.menu button:hover { 
+    background: rgba(255, 255, 255, 0.1); 
+    color: var(--branco);
+    padding-left: 20px;
+}
+
+.menu button.active { 
+    background: var(--verde-claro); 
+    color: var(--verde-militar-escuro);
+    font-weight: bold;
+}
+
+.main { 
+    flex: 1; 
+    padding: 40px; 
+    overflow-y: auto; 
+    max-height: 100vh;
+}
+
+.topo { 
+    margin-bottom: 35px; 
+    border-bottom: 2px solid var(--verde-claro-suave);
+    padding-bottom: 15px;
+}
+
+.topo h1 {
+    color: var(--verde-militar);
+    font-size: 28px;
+}
+
+.topo p {
+    color: #606860;
+    margin-top: 5px;
+}
+
+.modulo-conteudo { 
+    display: none; 
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.modulo-conteudo.active { 
+    display: block; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* ==========================================================================
-   CARDS DO DASHBOARD
+   CARDS E BLOCOS DO DASHBOARD
    ========================================================================== */
 .card-status {
-    background: var(--cinza-claro);
-    border-left: 6px solid var(--verde);
-    padding: 20px;
-    margin-bottom: 20px;
+    background: var(--branco);
+    border-left: 6px solid var(--verde-militar);
+    padding: 24px;
+    margin-bottom: 25px;
     border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
-.card-status h3 { color: var(--verde); margin-bottom: 10px; }
-.card-status p { font-size: 18px; margin: 8px 0; }
+.card-status h3 { 
+    color: var(--verde-militar); 
+    margin-bottom: 12px; 
+    font-size: 18px;
+}
 
-/* ==========================================================================
-   INFORMAÇÕES E BOTÕES DA LAVOURA
-   ========================================================================== */
+.card-status p { 
+    font-size: 18px; 
+    margin: 8px 0; 
+}
+
+/* Informações da Lavoura */
+#aba-lavoura .grid-botoes {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
 #aba-lavoura p {
     font-size: 18px;
-    margin-bottom: 12px;
-    padding: 12px;
-    background: #f9f9f9;
+    margin-bottom: 14px;
+    padding: 16px;
+    background: var(--branco);
     border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    border: 1px solid #E0E6E0;
 }
-#aba-lavoura strong { color: var(--verde-escuro); }
-#aba-lavoura .btn { width: auto; margin-right: 10px; display: inline-block; }
+
+#aba-lavoura strong { 
+    color: var(--verde-militar); 
+}
+
+#aba-lavoura .btn { 
+    width: auto; 
+    margin-top: 0;
+    background: var(--verde-militar);
+}
+#aba-lavoura .btn:hover {
+    background: var(--verde-militar-escuro);
+}
 
 /* ==========================================================================
    SAÚDE DA LAVOURA & IMAGEM
    ========================================================================== */
-#lbl-saude-grande { font-size: 50px; color: var(--verde); margin-bottom: 10px; }
-#txt-status-saude { font-size: 18px; color: #555; }
+#lbl-saude-grande { 
+    font-size: 54px; 
+    color: var(--verde-militar); 
+    margin-bottom: 8px; 
+    font-weight: bold;
+}
+
+#txt-status-saude { 
+    font-size: 18px; 
+    color: #505850; 
+}
+
+.btn-upload {
+    display: inline-block;
+    background: var(--verde-claro);
+    color: var(--verde-militar-escuro);
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+.btn-upload:hover {
+    background: #7DA87D;
+}
 
 .img-preview {
     display: none;
     width: 100%;
-    max-width: 500px;
-    border-radius: 10px;
-    margin: 15px 0;
+    max-width: 480px;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    border: 3px solid var(--verde-claro);
 }
 
 .resultado-analise {
-    display: block;
-    background: #fff8e1;
-    border-left: 6px solid var(--amarelo);
-    padding: 15px;
+    display: none;
+    background: var(--verde-claro-suave);
+    border-left: 6px solid var(--verde-militar);
+    padding: 20px;
     border-radius: 8px;
-    margin-top: 15px;
+    margin-top: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+}
+
+.resultado-analise h3 {
+    color: var(--verde-militar);
+    margin-bottom: 8px;
 }
 
 /* ==========================================================================
    CHAT IA
    ========================================================================== */
-.chat-container { border: 2px solid #ddd; border-radius: 12px; overflow: hidden; background: white; margin-top: 15px; }
-.chat-messages { height: 350px; overflow-y: auto; padding: 15px; }
-.msg { padding: 12px 15px; margin-bottom: 10px; border-radius: 12px; max-width: 85%; font-size: 16px; }
-.msg.user { background: #d9ebff; margin-left: auto; }
-.msg.ia { background: #e2f0d9; border-left: 5px solid var(--verde); }
-.chat-input-area { display: flex; gap: 10px; padding: 10px; background: #f0f0f0; }
-.chat-input-area .input { margin-top: 0; flex: 1; }
-.chat-input-area button { width: auto; margin-top: 0; }
+.chat-container { 
+    border: 1px solid #D0D8D0; 
+    border-radius: 14px; 
+    overflow: hidden; 
+    background: var(--branco); 
+    margin-top: 20px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
 
-/* Lista de Itens (Missões e Diário) */
-.lista-itens { list-style: none; margin-top: 15px; }
-.lista-itens li { padding: 15px; margin-bottom: 10px; background: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-#lista-atividades-home li { border-left: 5px solid var(--verde); }
-#lista-missoes-campo li { background: #fafafa; border-left: 5px solid var(--amarelo); }
+.chat-messages { 
+    height: 380px; 
+    overflow-y: auto; 
+    padding: 20px; 
+    background: #FDFDFD;
+}
+
+.msg { 
+    padding: 14px 18px; 
+    margin-bottom: 12px; 
+    border-radius: 14px; 
+    max-width: 80%; 
+    font-size: 16px; 
+    line-height: 1.5;
+}
+
+.msg.user { 
+    background: var(--verde-claro-suave); 
+    color: var(--verde-militar-escuro);
+    margin-left: auto; 
+    border-bottom-right-radius: 2px;
+}
+
+.msg.ia { 
+    background: #F0F4F0; 
+    border-left: 5px solid var(--verde-militar); 
+    color: var(--texto-escuro);
+    border-bottom-left-radius: 2px;
+}
+
+.chat-input-area { 
+    display: flex; 
+    gap: 12px; 
+    padding: 15px; 
+    background: var(--cinza-fundo); 
+    border-top: 1px solid #D0D8D0;
+}
+
+.chat-input-area .input { 
+    margin-top: 0; 
+    flex: 1; 
+}
+
+.chat-input-area button { 
+    width: auto; 
+    margin-top: 0; 
+    padding: 0 25px;
+}
+
+/* ==========================================================================
+   LISTA DE ITENS (MISSÕES E DIÁRIO)
+   ========================================================================== */
+.lista-itens { 
+    list-style: none; 
+    margin-top: 20px; 
+}
+
+.lista-itens li { 
+    padding: 18px; 
+    margin-bottom: 12px; 
+    background: var(--branco); 
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+    transition: transform 0.2s;
+}
+
+#lista-atividades-home li { 
+    border-left: 5px solid var(--verde-claro); 
+}
+
+#lista-missoes-campo li { 
+    border-left: 5px solid var(--amarelo-alerta); 
+}
+
+.btn-cumprir {
+    background: var(--verde-militar);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 14px;
+}
+
+.btn-cumprir:hover {
+    background: var(--verde-militar-escuro);
+}
+
+.btn-cumprir.feito {
+    background: #A0AEA0;
+    color: #F0F4F0;
+    cursor: not-allowed;
+}
 
 /* ==========================================================================
    RESPONSIVIDADE (MOBILE)
    ========================================================================== */
 @media (max-width: 768px) {
-    #tela-dashboard.active { flex-direction: column; }
-    .sidebar { width: 100%; padding: 15px; }
-    .main { padding: 15px; }
-    #aba-lavoura .btn { width: 100%; margin-right: 0; }
-    #lbl-saude-grande { font-size: 40px; }
-    .chat-messages { height: 250px; }
+    #tela-dashboard.active { 
+        flex-direction: column; 
+    }
+    .sidebar { 
+        width: 100%; 
+        padding: 20px 15px; 
+    }
+    .logo-menu {
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+    .main { 
+        padding: 20px 15px; 
+    }
+    #aba-lavoura .grid-botoes {
+        flex-direction: column;
+    }
+    #aba-lavoura .btn { 
+        width: 100%; 
+    }
+    #lbl-saude-grande { 
+        font-size: 42px; 
+    }
+    .chat-messages { 
+        height: 280px; 
+    }
 }
